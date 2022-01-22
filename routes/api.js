@@ -4,8 +4,27 @@ const db = require('../dbConnect');
 const { signupValidation, loginValidation } = require('../validation');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
+const fs = require('fs');
+const path = require('path');
+const process = require("process");
 const JWT_SECRET = 'my-secret'
+
+const getAllfile = function(dir, files, index){
+  fileList = fs.readdirSync(dir)
+  files = files || []
+  index = index || 0
+  fileList.forEach((file)=>{
+    if(fs.statSync(dir + "/" + file).isDirectory()){
+      obj = getAllfile(dir + "/" + file, files, index)
+      files = obj["files"]
+      index = obj["index"]
+    }else{
+      index = index + 1
+      files.push({"id": index, "part": dir.split("/").pop(), "xpr_name": file})
+    }
+  })
+  return {files,index}
+}
 
 router.post('/register', signupValidation, (req, res, next) => {
     const email = req.body.email;
@@ -279,5 +298,45 @@ router.post('/register', signupValidation, (req, res, next) => {
       if (error) throw error;
       return res.send({ error: false, data: results, message: '请求成功' });
     });
+  });
+  router.post("/mricontrol/readxpr",signupValidation, (req, res, next) => {
+    if (
+      !req.headers.authorization ||
+      !req.headers.authorization.startsWith('MRI') ||
+      !req.headers.authorization.split(' ')[1]
+    ) {
+      return res.status(422).json({
+        message: "缺少Token",
+      });
+    }
+    const theToken = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.verify(theToken, JWT_SECRET);
+    const userid = decoded.id;
+    
+    let base_dir = "./mri/xpr";
+    let fileInfo = getAllfile(base_dir)
+    
+    return res.send({ data: fileInfo, message: '请求成功' });
+    
+  });
+  router.post("/mricontrol/getXprInfo",signupValidation, (req, res, next) => {
+    if (
+      !req.headers.authorization ||
+      !req.headers.authorization.startsWith('MRI') ||
+      !req.headers.authorization.split(' ')[1]
+    ) {
+      return res.status(422).json({
+        message: "缺少Token",
+      });
+    }
+    const theToken = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.verify(theToken, JWT_SECRET);
+    const userid = decoded.id;
+    const rowdata = req.body.rowdata;
+    // console.log(rowdata)
+
+    
+    return res.send({ data: {}, message: '请求成功' });
+    
   });
 module.exports = router;

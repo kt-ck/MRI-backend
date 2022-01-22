@@ -1,0 +1,61 @@
+:bin d:\Medview\XMS\XGYGREScout_v5_2.bin
+:Pulse_Head d:\Medview\XMS\xgysh_2.rh
+:PulseFile d:\Medview\XMS\xgysh_2.rf
+:VAR sample_bw,14
+:VAR NO_SAMPLES, 256
+:VAR NO_VIEWS, 128
+:VAR NO_SLICES, 9
+:VAR NO_EXPERIMENTS, 1
+:VAR NO_NEX, 1
+:VAR LoopMode, 22
+:VAR AVG_Mode, 0
+:VAR EffNum, 128
+:VAR tr, 60000
+:VAR te, 7600
+:VAR RFDur, 2000
+:VAR effRFDur, 1000
+:VAR rfnum,2
+:VAR p90_mul,70
+:VAR t1, 100
+:VAR t2,850
+:VAR t3,1200
+:VAR t4,1200
+:VAR t5,20
+:VAR t14,1200
+:VAR tramp,300
+:VAR tsp,1200
+:VAR tr_interval,100
+:VAR Gn, 3
+:VAR dummy, 0
+:VAR_ARRAY RcOffFreq, 30, 
+(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+:VAR_ARRAY TransFreq, 30, 
+(1364, 0, -1364, 1364, 0, -1364, -1364, 0, 1364, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+:VAR subj_angle_x, 0
+:VAR subj_angle_y, 900
+:VAR subj_angle_z, 900
+:VAR_ARRAY r_angle_var, 30,
+(0, 0, 0, 0, 0, 0, -900, -900, -900, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+:VAR_ARRAY p_angle_var, 30,
+(0, 0, 0, -900, -900, -900, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+:VAR_ARRAY s_angle_var, 30,
+(0, 0, 0, 900, 900, 900, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+:VAR phase_var, 0
+:VAR G1,-2625
+:VAR G2,-2625
+:VAR G3,11775
+:VAR G5,4163
+:VAR G11,18000
+:VAR G12,18000
+:VAR G14,5681
+:VAR G15,5681
+:VAR Gplist_on,0
+:VAR gs_on,1
+:VAR gp_on,1
+:VAR gr_on,1
+:VAR gs_polar,1
+:VAR gp_polar,1
+:VAR gr_polar,1
+:VAR RG,0
+:VAR RcAtn,0
+:VAR ChSel,0xF
