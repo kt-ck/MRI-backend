@@ -7,7 +7,8 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 const path = require('path');
 const process = require("process");
-const JWT_SECRET = 'my-secret'
+const spawn = require("child_process").spawn;
+const JWT_SECRET = 'my-secret';
 
 const getAllfile = function(dir, files, index){
   fileList = fs.readdirSync(dir)
@@ -335,8 +336,55 @@ router.post('/register', signupValidation, (req, res, next) => {
     const rowdata = req.body.rowdata;
     // console.log(rowdata)
 
-    
     return res.send({ data: {}, message: '请求成功' });
     
   });
+  router.post("/imgProcess/getDcmImg",signupValidation, (req, res, next) => {
+    if (
+      !req.headers.authorization ||
+      !req.headers.authorization.startsWith('MRI') ||
+      !req.headers.authorization.split(' ')[1]
+    ) {
+      return res.status(422).json({
+        message: "缺少Token",
+      });
+    }
+    const theToken = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.verify(theToken, JWT_SECRET);
+    const userid = decoded.id;
+    const person = "ck"
+    const pythonProcess = spawn('python',["./pythonFile/DcmToPng.py", person]);
+    pythonProcess.stdout.on('data', (data) => {
+      console.log(data.toString());
+      return res.send({ data: getAllfile('./mri/dcm/out/' + person)["files"], message: '请求成功' });
+    });
+  })
+
+  router.get("/imgProcess/mri-img", (req, res) => {
+    let person = req.query.person;
+    let file = req.query.file
+    fs.readFile(`./mri/dcm/out/${person}/${file}`, function(err,data){
+            res.writeHead(200,{'Content-Type':'image/png'});
+            res.end(data);
+    });
+  })
+
+  router.post("/imgProcess/getDcmFile",signupValidation, (req, res, next) => {
+    if (
+      !req.headers.authorization ||
+      !req.headers.authorization.startsWith('MRI') ||
+      !req.headers.authorization.split(' ')[1]
+    ) {
+      return res.status(422).json({
+        message: "缺少Token",
+      });
+    }
+    const theToken = req.headers.authorization.split(' ')[1];
+    const decoded = jwt.verify(theToken, JWT_SECRET);
+    const userid = decoded.id;
+
+    let obj = getAllfile("./mri/dcm/Persons")
+    return res.send({error: false, data: obj, message: '请求成功' });
+  })
+
 module.exports = router;
